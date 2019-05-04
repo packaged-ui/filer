@@ -1,0 +1,16 @@
+<html>
+<script src="../build/modal.min.js"></script>
+<body>
+
+<button id="btn-filer">Open Filer</button>
+<script>
+  let filer = new Filer({url: '/example/filer.php'});
+
+  document.getElementById('btn-filer')
+          .addEventListener(
+            'click',
+            function () {filer.open('');}
+          );
+</script>
+</body>
+</html>
