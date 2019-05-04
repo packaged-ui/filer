@@ -84,6 +84,7 @@ export default class Filer
         return;
       }
       this.classList.add('filer-items--droppable');
+      e.preventDefault();
     });
     itemContainer.addEventListener('dragleave', function (e)
     {
@@ -92,7 +93,9 @@ export default class Filer
         return;
       }
       this.classList.remove('filer-items--droppable');
+      e.preventDefault();
     });
+    itemContainer.addEventListener('dragover', (e) => e.preventDefault());
     itemContainer.addEventListener('drop', function (e)
     {
       if(self._localDrag)
