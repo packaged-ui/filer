@@ -4,7 +4,14 @@
 
 <button id="btn-filer">Open Filer</button>
 <script>
-  let filer = new Filer({url: '/example/filer.php'});
+  let filer = new Filer(
+    {
+      url: '/example/filer.php',
+      itemSelected: function (item)
+      {
+        window.open(item.path);
+      }
+    });
 
   document.getElementById('btn-filer')
           .addEventListener(

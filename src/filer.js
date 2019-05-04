@@ -236,7 +236,7 @@ export default class Filer
       {
         itemImg.style.backgroundImage = 'url("' + item.path + '")';
       }
-      itemImg.addEventListener('dblclick', () => this.config.itemSelected(item));
+      itemImg.addEventListener('dblclick', () => this.config.itemSelected.call(this, item));
     }
     itemEle.appendChild(itemImg);
 
