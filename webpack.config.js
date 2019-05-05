@@ -4,7 +4,7 @@ module.exports = [
   {
     watch: true,
     entry: {
-      'modal': './index.js'
+      'filer': './index.js'
     },
     module: {
       rules: [

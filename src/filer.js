@@ -1,5 +1,4 @@
 import Request from "@packaged-ui/request/src/request";
-import Modal from "@packaged-ui/modal/src/modal";
 import {debounce} from "debounce";
 
 import './style.css';
@@ -10,12 +9,34 @@ export default class Filer
   constructor(config)
   {
     this.config = Object.assign(defaultFilerConfig, config);
+    if(!this.config.container)
+    {
+      throw 'No container specified';
+    }
     if(!this.config.url)
     {
       throw 'Not a valid url for filer interface';
     }
 
     this.connector = new (this.config.connector)(this);
+
+    this.open('');
+  }
+
+  _getContainer()
+  {
+    if(!this._container)
+    {
+      if(typeof (this.config.container) === 'string')
+      {
+        this._container = document.querySelector(this.config.container)
+      }
+      else
+      {
+        this._container = this.config.container;
+      }
+    }
+    return this._container;
   }
 
   open(path)
@@ -24,7 +45,6 @@ export default class Filer
 
     const self = this;
 
-    let modal = this._getModal();
     this.connector.retrieve(
       path,
       function (r)
@@ -34,8 +54,6 @@ export default class Filer
         self._drawItems(items);
       }
     );
-
-    modal.show();
   }
 
   _processItems(items)
@@ -62,18 +80,15 @@ export default class Filer
     return items;
   }
 
-  _getModal()
-  {
-    this.modal = this.modal || new Modal();
-    return this.modal;
-  }
-
   _drawItems(items)
   {
     const self = this;
 
-    let modal = this._getModal();
-    modal.clear();
+    let container = this._getContainer();
+    while(container.firstChild)
+    {
+      container.removeChild(container.firstChild);
+    }
 
     let itemContainer = document.createElement('div');
     itemContainer.classList.add('filer-items');
@@ -164,7 +179,7 @@ export default class Filer
         }
       }
     });
-    modal.appendChild(itemContainer);
+    container.appendChild(itemContainer);
     for(let i in items)
     {
       if(items.hasOwnProperty(i))
@@ -397,5 +412,6 @@ const defaultFilerConfig = {
   sort: null,
   filter: null,
   connector: RpcConnector,
+  container: null,
   itemSelected: (item) => {alert('selected ' + item.path)},
 };

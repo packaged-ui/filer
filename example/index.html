@@ -1,23 +1,18 @@
 <html>
-<script src="../build/modal.min.js"></script>
+<script src="../build/filer.min.js"></script>
 <body>
 
-<button id="btn-filer">Open Filer</button>
+<div id="container"></div>
 <script>
-  let filer = new Filer(
+  new Filer(
     {
+      container: '#container',
       url: '/example/filer.php',
       itemSelected: function (item)
       {
         window.open(item.path);
       }
     });
-
-  document.getElementById('btn-filer')
-          .addEventListener(
-            'click',
-            function () {filer.open('');}
-          );
 </script>
 </body>
 </html>
