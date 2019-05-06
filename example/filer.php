@@ -24,8 +24,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'upload' && (!empty($_F
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'rename')
 {
-  $from = $docRoot . $_REQUEST['from'];
-  $to = $docRoot . $_REQUEST['to'];
+  $from = $topLevel . $_REQUEST['from'];
+  $to = $topLevel . $_REQUEST['to'];
   if(file_exists($from) && !file_exists($to))
   {
     rename($from, $to);
@@ -52,29 +52,30 @@ if($fileRoot !== $topLevel)
 {
   $parentDir = dirname($fileRoot);
   $items[] = [
-    'path' => getRelativePath($docRoot, $parentDir),
+    'path' => getRelativePath($topLevel, $parentDir),
     'name' => '..',
     'type' => filetype($parentDir),
-    'mime' => mime_content_type($parentDir),
+    'mime' => get_mime_type($parentDir),
   ];
 }
 
-foreach($glob as $g)
+foreach($glob as $filePath)
 {
   $item = [
-    'path' => getRelativePath($docRoot, $g),
-    'name' => basename($g),
+    'path' => getRelativePath($topLevel, $filePath),
+    'url'  => getRelativePath($docRoot, $filePath),
+    'name' => basename($filePath),
   ];
 
-  $type = filetype($g);
+  $type = filetype($filePath);
   if($type === 'link')
   {
-    $g = realpath($g);
-    $type = filetype($g);
+    $filePath = realpath($filePath);
+    $type = filetype($filePath);
   }
 
   $item['type'] = $type;
-  $item['mime'] = mime_content_type($g);
+  $item['mime'] = get_mime_type($filePath);
   $items[] = $item;
 }
 
@@ -97,9 +98,9 @@ function get_mime_type($file)
   return $mimetype;
 }
 
-function getRelativePath(string $docRoot, string $g)
+function getRelativePath($root, $path)
 {
-  return preg_replace('/^' . preg_quote($docRoot, '/') . '/', '', $g);
+  return preg_replace('/^' . preg_quote($root, '/') . '/', '', $path);
 }
 
 echo json_encode($items);

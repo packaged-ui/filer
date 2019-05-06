@@ -220,7 +220,10 @@ export default class Filer
 
           // this is moving an item to a new folder, so append the basename to the target path
           let from = self._localDrag.getAttribute('path');
-          this.connector.delete(from, __reloadCurrent.bind(this));
+          if(confirm('Are you sure you wish do delete this file?'))
+          {
+            this.connector.delete(from, __reloadCurrent.bind(this));
+          }
         }
         self._localDrag = null;
       });
@@ -249,7 +252,7 @@ export default class Filer
     {
       if(item.mime.indexOf('image/') === 0)
       {
-        itemImg.style.backgroundImage = 'url("' + item.path + '")';
+        itemImg.style.backgroundImage = 'url("' + item.url + '")';
       }
       itemImg.addEventListener('dblclick', () => this.config.itemSelected.call(this, item));
     }
