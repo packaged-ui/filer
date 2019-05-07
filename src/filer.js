@@ -300,8 +300,12 @@ export default class Filer
   }
 }
 
-function __reloadCurrent()
+function __reloadCurrent(xhr)
 {
+  if(xhr.response)
+  {
+    console.error(xhr.response);
+  }
   debounce(this.open.apply(this, [this.currentPath]), 250);
 }
 
