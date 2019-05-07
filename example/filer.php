@@ -21,7 +21,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'upload' && (!empty($_F
     $_FILES['file']['tmp_name'],
     $fileRoot . '/' . $name
   );
-  die;
+  die('true');
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'rename')
 {
@@ -29,19 +29,19 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'rename')
   $to = $topLevel . $_REQUEST['to'];
   if(!file_exists($from) || file_exists($to))
   {
-    die('unable to rename');
+    die('"unable to rename"');
   }
   rename($from, $to);
-  die;
+  die('true');
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'delete')
 {
   if(!file_exists($fileRoot))
   {
-    die('unable to delete');
+    die('"unable to delete"');
   }
   unlink($fileRoot);
-  die;
+  die('true');
 }
 
 $items = [];
