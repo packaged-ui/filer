@@ -302,9 +302,10 @@ export default class Filer
 
 function __reloadCurrent(xhr)
 {
-  if(xhr.response)
+  let response = JSON.parse(xhr.response);
+  if(response !== true)
   {
-    console.error(xhr.response);
+    console.error(response);
   }
   debounce(this.open.apply(this, [this.currentPath]), 250);
 }
