@@ -21,22 +21,27 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'upload' && (!empty($_F
     $_FILES['file']['tmp_name'],
     $fileRoot . '/' . $name
   );
+  die;
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'rename')
 {
   $from = $topLevel . $_REQUEST['from'];
   $to = $topLevel . $_REQUEST['to'];
-  if(file_exists($from) && !file_exists($to))
+  if(!file_exists($from) || file_exists($to))
   {
-    rename($from, $to);
+    die('unable to rename');
   }
+  rename($from, $to);
+  die;
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'delete')
 {
-  if(file_exists($fileRoot))
+  if(!file_exists($fileRoot))
   {
-    unlink($fileRoot);
+    die('unable to delete');
   }
+  unlink($fileRoot);
+  die;
 }
 
 $items = [];
