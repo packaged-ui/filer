@@ -20,7 +20,10 @@ export default class Filer
 
     this.connector = new (this.config.connector)(this);
 
-    this.open('');
+    if(this.config.autoOpen)
+    {
+      this.open('');
+    }
   }
 
   _getContainer()
@@ -416,6 +419,7 @@ function _getFilterFn(prop, filter)
 }
 
 const defaultFilerConfig = {
+  autoOpen: true,
   url: null,
   sort: null,
   filter: null,
