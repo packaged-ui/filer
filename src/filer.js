@@ -8,7 +8,7 @@ export default class Filer
 {
   constructor(config)
   {
-    this.config = Object.assign(defaultFilerConfig, config);
+    this.config = Object.assign({}, defaultFilerConfig, config);
     if(!this.config.container)
     {
       throw 'No container specified';
