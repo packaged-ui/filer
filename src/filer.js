@@ -24,6 +24,8 @@ export default class Filer
     {
       this.open('');
     }
+
+    this._debounceOpen = debounce(this._reopen, 250);
   }
 
   _getContainer()
@@ -57,6 +59,11 @@ export default class Filer
         self._drawItems(items);
       }
     );
+  }
+
+  _reopen()
+  {
+    this.open(this.currentPath);
   }
 
   _processItems(items)
@@ -310,7 +317,10 @@ function __reloadCurrent(xhr)
   {
     console.error(response);
   }
-  debounce(this.open.apply(this, [this.currentPath]), 250);
+  else
+  {
+    this._debounceOpen();
+  }
 }
 
 function _getSortFn(sortProps)
