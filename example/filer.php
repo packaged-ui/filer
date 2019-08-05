@@ -31,6 +31,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'rename')
   {
     die('"unable to rename"');
   }
+  if (strpos($to, $from) === 0)
+  {
+    die('"target and destination cannot be the same"');
+  }
   rename($from, $to);
   die('true');
 }
